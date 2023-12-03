@@ -19,8 +19,6 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
-        with:
-          ssh-key: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -34,6 +32,5 @@ jobs:
           git config user.email 'willin@willin.org'
       - name: bump version
         run: npm version ${{ github.event.inputs.version }}
-
       - name: Push latest version
         run: git push origin main --follow-tags
