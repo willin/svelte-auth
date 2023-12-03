@@ -1,0 +1,82 @@
+{
+	"name": "@svelte-dev/auth",
+	"version": "0.0.0",
+	"description": "A Template by Willin.Wang",
+	"author": "Willin Wang <willin@willin.org> (https://willin.wang/)",
+	"keywords": [],
+	"homepage": "https://github.com/willin/svelte-auth#readme",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build && npm run package",
+		"preview": "vite preview",
+		"package": "svelte-kit sync && svelte-package && publint",
+		"prepublishOnly": "npm run package",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"test": "vitest",
+		"coverage": "vitest run --coverage",
+		"prepare": "husky install",
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write ."
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"peerDependencies": {
+		"svelte": "^4.0.0"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "latest",
+		"@commitlint/config-conventional": "latest",
+		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/kit": "^1.27.4",
+		"@sveltejs/package": "^2.0.0",
+		"@typescript-eslint/eslint-plugin": "^6.0.0",
+		"@typescript-eslint/parser": "^6.0.0",
+		"@vitest/coverage-istanbul": "^0.34.6",
+		"conventional-changelog-cli": "latest",
+		"eslint": "^8.28.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-plugin-svelte": "^2.30.0",
+		"husky": "latest",
+		"lint-staged": "latest",
+		"prettier": "^3.0.0",
+		"prettier-plugin-svelte": "^3.0.0",
+		"publint": "^0.1.9",
+		"svelte": "^5.0.0-next.1",
+		"svelte-check": "^3.6.0",
+		"tslib": "^2.4.1",
+		"typescript": "^5.0.0",
+		"vite": "^4.4.2",
+		"vitest": "^0.34.0"
+	},
+	"svelte": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"type": "module",
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/willin/svelte-auth.git"
+	},
+	"bugs": {
+		"url": "https://github.com/willin/svelte-auth/issues"
+	},
+	"lint-staged": {
+		"*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|graphql|mdx|vue)": [
+			"prettier --write"
+		],
+		"*.+(js|jsx|ts|tsx|vue)": [
+			"eslint --fix"
+		]
+	}
+}
