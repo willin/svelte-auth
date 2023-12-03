@@ -28,7 +28,6 @@ jobs:
           bun-version: ${{ matrix.bun-version }}
       - run: bun install
       - run: bun run build
-      - run: bun run test
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v5
         env:

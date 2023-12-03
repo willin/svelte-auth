@@ -3,7 +3,16 @@
 	"version": "0.0.0",
 	"description": "A Template by Willin.Wang",
 	"author": "Willin Wang <willin@willin.org> (https://willin.wang/)",
-	"keywords": [],
+	"keywords": [
+		"svelte",
+		"auth",
+		"authentication",
+		"local",
+		"auth0",
+		"authing",
+		"oauth2",
+		"strategies"
+	],
 	"homepage": "https://github.com/willin/svelte-auth#readme",
 	"scripts": {
 		"dev": "vite dev",
@@ -16,8 +25,7 @@
 		"test": "vitest",
 		"coverage": "vitest run --coverage",
 		"prepare": "husky install",
-		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"lint": "prettier --write . && eslint . --fix"
 	},
 	"exports": {
 		".": {
@@ -42,6 +50,7 @@
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"@vitest/coverage-istanbul": "^0.34.6",
+		"bun-types": "^1.0.15",
 		"conventional-changelog-cli": "latest",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^9.0.0",

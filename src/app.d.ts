@@ -1,3 +1,6 @@
+/// <reference lib="dom" />
+/// <reference lib="dom.iterable" />
+
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare global {
