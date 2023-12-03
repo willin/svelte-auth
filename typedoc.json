@@ -9,6 +9,7 @@
 	"disableSources": true,
 	"hideParameterTypesInTitle": false,
 	"navigationLinks": {
+		"Demo": "https://svelte-auth.js.cool/",
 		"GitHub": "https://github.com/willin/svelte-auth",
 		"NPM": "https://npmjs.com/package/@svelte-dev/auth",
 		"Willin": "https://willin.wang"
