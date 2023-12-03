@@ -93,7 +93,7 @@ describe(Authenticator, () => {
 			const e = {
 				cookies: {
 					get() {
-						return user;
+						return JSON.stringify(user);
 					}
 				}
 			};
@@ -112,7 +112,7 @@ describe(Authenticator, () => {
 		test('should throw a redirect if failureRedirect is defined', () => {
 			const resp = new Response(undefined, {
 				status: 307,
-				header: {
+				headers: {
 					location: '/login'
 				}
 			});
@@ -128,13 +128,13 @@ describe(Authenticator, () => {
 			const e = {
 				cookies: {
 					get() {
-						return user;
+						return JSON.stringify(user);
 					}
 				}
 			};
 			const response = new Response(undefined, {
 				status: 307,
-				header: {
+				headers: {
 					location: '/dashboard'
 				}
 			});

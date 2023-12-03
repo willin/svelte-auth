@@ -31,7 +31,7 @@ describe(Authorizer, () => {
 			cookies: {
 				set() {},
 				get() {
-					return user;
+					return JSON.stringify(user);
 				},
 				delete() {}
 			}
@@ -104,7 +104,7 @@ describe(Authorizer, () => {
 			cookies: {
 				set() {},
 				get() {
-					return user;
+					return JSON.stringify(user);
 				},
 				delete() {}
 			}
@@ -129,7 +129,7 @@ describe(Authorizer, () => {
 			cookies: {
 				set() {},
 				get() {
-					return user;
+					return JSON.stringify(user);
 				},
 				delete() {}
 			}
@@ -157,7 +157,7 @@ describe(Authorizer, () => {
 			cookies: {
 				set() {},
 				get() {
-					return user;
+					return JSON.stringify(user);
 				},
 				delete() {}
 			}
@@ -183,7 +183,7 @@ describe(Authorizer, () => {
 			cookies: {
 				set() {},
 				get() {
-					return user;
+					return JSON.stringify(user);
 				},
 				delete() {}
 			}
@@ -208,7 +208,7 @@ describe(Authorizer, () => {
 			cookies: {
 				set() {},
 				get() {
-					return user;
+					return JSON.stringify(user);
 				},
 				delete() {}
 			}
@@ -229,7 +229,7 @@ describe(Authorizer, () => {
 			cookies: {
 				set() {},
 				get() {
-					return user;
+					return JSON.stringify(user);
 				},
 				delete() {}
 			}
