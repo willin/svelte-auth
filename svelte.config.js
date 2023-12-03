@@ -14,7 +14,7 @@ const config = {
 		adapter: adapter({
 			routes: {
 				include: ['/*'],
-				exclude: ['<all>', '/docs/*']
+				exclude: ['<build>', '<prerendered>', '/favicon.png', '/docs/*']
 			}
 		})
 	}
