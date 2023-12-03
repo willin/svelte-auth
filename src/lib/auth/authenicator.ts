@@ -121,7 +121,7 @@ export class Authenticator<User = unknown> {
 	 * @example
 	 * async function loader({ event }: RequestEvent) {
 	 *   // if the user is not authenticated, redirect to login
-	 *   let user = await authenticator.isAuthenticated(request, {
+	 *   let user = await authenticator.isAuthenticated(event, {
 	 *     failureRedirect: "/login",
 	 *   });
 	 *   // do something with the user
@@ -130,7 +130,7 @@ export class Authenticator<User = unknown> {
 	 * @example
 	 * async function loader({ event }: RequestEvent) {
 	 *   // if the user is authenticated, redirect to /dashboard
-	 *   await authenticator.isAuthenticated(request, {
+	 *   await authenticator.isAuthenticated(event, {
 	 *     successRedirect: "/dashboard"
 	 *   });
 	 *   return json(publicData);
@@ -138,9 +138,9 @@ export class Authenticator<User = unknown> {
 	 * @example
 	 * async function loader({ event }: RequestEvent) {
 	 *   // manually handle what happens if the user is or not authenticated
-	 *   let user = await authenticator.isAuthenticated(request);
+	 *   let user = await authenticator.isAuthenticated(event);
 	 *   if (!user) return json(publicData);
-	 *   return sessionLoader(request);
+	 *   return sessionLoader(event);
 	 * }
 	 */
 	async isAuthenticated(
