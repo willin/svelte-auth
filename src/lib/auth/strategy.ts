@@ -1,4 +1,4 @@
-import { redirect, type RequestEvent } from '@sveltejs/kit';
+import { json, redirect, type RequestEvent } from '@sveltejs/kit';
 import { AuthorizationError } from './error.js';
 
 /**
@@ -39,11 +39,6 @@ export interface AuthenticateOptions {
 	 * @default true
 	 */
 	throwOnError?: boolean;
-	/**
-	 * The context object received by the loader or action.
-	 * This can be used by the strategy if needed.
-	 */
-	context?: AppLoadContext;
 
 	cookieOpts?: import('cookie').CookieSerializeOptions;
 }
@@ -112,10 +107,15 @@ export abstract class Strategy<User, VerifyOptions> {
 		// if a failureRedirect is not set, we throw a 401 Response or an error
 		if (!options.failureRedirect) {
 			if (options.throwOnError) throw new AuthorizationError(message, cause);
-			throw json<{ message: string }>({ message }, 401);
+			throw json(
+				{ message },
+				{
+					status: 401
+				}
+			);
 		}
 		const { cookies } = event;
-		cookies.set(options.sessionErrorKey, { message }, options.cookieOpts);
+		cookies.set(options.sessionErrorKey, JSON.stringify({ message }), options.cookieOpts);
 
 		throw redirect(307, options.failureRedirect);
 	}
@@ -140,7 +140,7 @@ export abstract class Strategy<User, VerifyOptions> {
 
 		// if we do have a successRedirect, we redirect to it and set the user
 		// in the session sessionKey
-		cookies.set(options.sessionKey, user, options.cookieOpts);
+		cookies.set(options.sessionKey, JSON.stringify(user), options.cookieOpts);
 		cookies.set(options.sessionStrategyKey, options.name ?? this.name, options.cookieOpts);
 		throw redirect(307, options.successRedirect);
 	}

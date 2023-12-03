@@ -1,5 +1,6 @@
 import { json, redirect, type Handle } from '@sveltejs/kit';
 import { AuthorizationError } from './error.js';
+import type { Authenticator } from './authenicator.js';
 
 type LoaderArgs = Parameters<Handle>[0];
 

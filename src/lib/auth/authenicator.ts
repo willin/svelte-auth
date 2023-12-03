@@ -81,32 +81,26 @@ export class Authenticator<User = unknown> {
 	authenticate(
 		strategy: string,
 		event: RequestEvent,
-		options: Pick<AuthenticateOptions, 'failureRedirect' | 'throwOnError' | 'context'> & {
+		options: Pick<AuthenticateOptions, 'failureRedirect' | 'throwOnError'> & {
 			successRedirect: AuthenticateOptions['successRedirect'];
 		}
 	): Promise<never>;
 	authenticate(
 		strategy: string,
 		event: RequestEvent,
-		options: Pick<AuthenticateOptions, 'successRedirect' | 'throwOnError' | 'context'> & {
+		options: Pick<AuthenticateOptions, 'successRedirect' | 'throwOnError'> & {
 			failureRedirect: AuthenticateOptions['failureRedirect'];
 		}
 	): Promise<User>;
 	authenticate(
 		strategy: string,
 		event: RequestEvent,
-		options?: Pick<
-			AuthenticateOptions,
-			'successRedirect' | 'failureRedirect' | 'throwOnError' | 'context'
-		>
+		options?: Pick<AuthenticateOptions, 'successRedirect' | 'failureRedirect' | 'throwOnError'>
 	): Promise<User>;
 	authenticate(
 		strategy: string,
 		event: RequestEvent,
-		options: Pick<
-			AuthenticateOptions,
-			'successRedirect' | 'failureRedirect' | 'throwOnError' | 'context'
-		> = {}
+		options: Pick<AuthenticateOptions, 'successRedirect' | 'failureRedirect' | 'throwOnError'> = {}
 	): Promise<User> {
 		const strategyObj = this.strategies.get(strategy);
 		if (!strategyObj) throw new Error(`Strategy ${strategy} not found.`);
@@ -202,13 +196,15 @@ export class Authenticator<User = unknown> {
 			  } = {}
 	): Promise<User | null> {
 		const { cookies } = event;
-		const user: User | null = cookies.get(this.sessionKey) ?? null;
+		const user: User | null = cookies.get(this.sessionKey)
+			? JSON.parse(cookies.get(this.sessionKey) as string)
+			: null;
 
 		if (user) {
 			if (options.successRedirect) {
 				throw new Response(undefined, {
 					status: 307,
-					header: {
+					headers: {
 						...options.headers,
 						location: options.successRedirect
 					}
@@ -219,7 +215,7 @@ export class Authenticator<User = unknown> {
 		if (options.failureRedirect) {
 			throw new Response(undefined, {
 				status: 307,
-				header: {
+				headers: {
 					...options.headers,
 					location: options.failureRedirect
 				}
