@@ -1,4 +1,4 @@
-import { SSOStrategy } from '@svelte-dev/auth-sso/build/index.js';
+import { SSOStrategy } from '@svelte-dev/auth-sso';
 import { env } from '$env/dynamic/private';
 import { Authenticator } from '$lib/index.js';
 

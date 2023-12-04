@@ -47,7 +47,7 @@
 	"devDependencies": {
 		"@commitlint/cli": "latest",
 		"@commitlint/config-conventional": "latest",
-		"@svelte-dev/auth-sso": "^0.0.3",
+		"@svelte-dev/auth-sso": "^0.0.4",
 		"@sveltejs/adapter-cloudflare": "^2.3.3",
 		"@sveltejs/kit": "^1.27.4",
 		"@sveltejs/package": "^2.2.3",
