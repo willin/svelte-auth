@@ -211,7 +211,6 @@ export class Authenticator<User = unknown> {
 				});
 			} else return user;
 		}
-
 		if (options.failureRedirect) {
 			throw new Response(undefined, {
 				status: 307,

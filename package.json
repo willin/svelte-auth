@@ -1,7 +1,7 @@
 {
 	"name": "@svelte-dev/auth",
 	"version": "0.0.2",
-	"description": "A Template by Willin.Wang",
+	"description": "Simple Authentication for Svelte",
 	"author": "Willin Wang <willin@willin.org> (https://willin.wang/)",
 	"keywords": [
 		"svelte",
@@ -41,11 +41,13 @@
 		"!dist/**/*.spec.*"
 	],
 	"peerDependencies": {
-		"svelte": "^5.0.0"
+		"@sveltejs/kit": "^1.0.0",
+		"svelte": "^5.0.0||^4.0.0"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "latest",
 		"@commitlint/config-conventional": "latest",
+		"@svelte-dev/auth-sso": "latest",
 		"@sveltejs/adapter-cloudflare": "^2.3.3",
 		"@sveltejs/kit": "^1.27.4",
 		"@sveltejs/package": "^2.2.3",
