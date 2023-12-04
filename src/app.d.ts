@@ -7,10 +7,12 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user?: {
-				invalid?: boolean;
-				[key: string]: unknown;
-			};
+			user?:
+				| {
+						invalid?: boolean;
+						[key: string]: unknown;
+				  }
+				| unknown;
 		}
 		// interface PageData {}
 		interface Platform {
