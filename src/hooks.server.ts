@@ -1,3 +1,4 @@
+import type { Handle } from '@sveltejs/kit';
 import { authenticator } from './routes/sso.js';
 
 export const handle: Handle = async ({ event, resolve }) => {

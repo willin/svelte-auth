@@ -6,7 +6,9 @@
 declare global {
 	namespace App {
 		// interface Error {}
-		// interface Locals {}
+		interface Locals {
+			user: unknown;
+		}
 		// interface PageData {}
 		interface Platform {
 			env: {
