@@ -3,7 +3,14 @@ import { env } from '$env/dynamic/private';
 import { Authenticator } from '$lib/index.js';
 
 const authenticator = new Authenticator({
-	throwOnError: true
+	throwOnError: true,
+	cookieOpts: {
+		secure: !!env.SSO_CALLBACK_URL,
+		sameSite: 'lax',
+		path: '/',
+		httpOnly: !!env.SSO_CALLBACK_URL,
+		maxAge: 604800000
+	}
 });
 
 const ssoStrategy = new SSOStrategy(

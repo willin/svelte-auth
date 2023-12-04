@@ -10,6 +10,8 @@
 	});
 </script>
 
-{#await data}
-	<pre>{JSON.stringify(data)}</pre>
-{/await}
+{#if data && !data.user.invalid}
+	<div>
+		<pre>{JSON.stringify(data, null, 2)}</pre>
+	</div>
+{/if}

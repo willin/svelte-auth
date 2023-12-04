@@ -24,6 +24,7 @@ export class Authenticator<User = unknown> {
 	private strategies = new Map<string, Strategy<User, never>>();
 
 	public readonly sessionKey: NonNullable<AuthenticatorOptions['sessionKey']>;
+	public readonly cookieOpts: NonNullable<AuthenticatorOptions['cookieOpts']>;
 	public readonly sessionErrorKey: NonNullable<AuthenticatorOptions['sessionErrorKey']>;
 	public readonly sessionStrategyKey: NonNullable<AuthenticateOptions['sessionStrategyKey']>;
 	private readonly throwOnError: AuthenticatorOptions['throwOnError'];
@@ -36,6 +37,7 @@ export class Authenticator<User = unknown> {
 		this.sessionErrorKey = options.sessionErrorKey || 'auth:error';
 		this.sessionStrategyKey = options.sessionStrategyKey || 'strategy';
 		this.throwOnError = options.throwOnError ?? false;
+		this.cookieOpts = options.cookieOpts ?? {};
 	}
 
 	/**
@@ -110,7 +112,8 @@ export class Authenticator<User = unknown> {
 			name: strategy,
 			sessionKey: this.sessionKey,
 			sessionErrorKey: this.sessionErrorKey,
-			sessionStrategyKey: this.sessionStrategyKey
+			sessionStrategyKey: this.sessionStrategyKey,
+			cookieOpts: this.cookieOpts
 		});
 	}
 
