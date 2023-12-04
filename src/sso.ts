@@ -10,8 +10,7 @@ const ssoStrategy = new SSOStrategy(
 	{
 		clientID: env.SSO_ID,
 		clientSecret: env.SSO_SECRET,
-		callbackURL: 'http://localhost:8788/auth/sso/callback'
-		// 'https://svelte-auth.js.cool/auth/sso/callback'
+		callbackURL: env.SSO_CALLBACK_URL || 'http://localhost:8788/auth/sso/callback'
 	},
 	async ({ profile }) => {
 		// Get the user data from your DB or API using the tokens and profile
