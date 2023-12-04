@@ -33,8 +33,6 @@ jobs:
         uses: paambaati/codeclimate-action@v5
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-          SSO_ID: x
-          SSO_SECRET: x
         with:
           coverageCommand: bun run coverage
           coverageLocations: ./.coverage/lcov.info:lcov
