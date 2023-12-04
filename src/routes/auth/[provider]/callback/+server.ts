@@ -1,4 +1,4 @@
-import { authenticator } from '../../../sso.js';
+import { authenticator } from '../../../sso.server.js';
 import type { RequestHandler } from './$types.js';
 
 export const GET: RequestHandler = async (event) => {

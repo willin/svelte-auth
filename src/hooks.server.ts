@@ -1,5 +1,5 @@
 import type { Handle } from '@sveltejs/kit';
-import { authenticator } from './routes/sso.js';
+import { authenticator } from './routes/sso.server.js';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const user = await authenticator.isAuthenticated(event);
