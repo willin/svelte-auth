@@ -1,6 +1,6 @@
 {
 	"name": "@svelte-dev/auth",
-	"version": "0.0.2",
+	"version": "0.0.6",
 	"description": "Simple Authentication for Svelte",
 	"author": "Willin Wang <willin@willin.org> (https://willin.wang/)",
 	"keywords": [
@@ -16,7 +16,7 @@
 	"homepage": "https://github.com/willin/svelte-auth#readme",
 	"scripts": {
 		"dev": "vite dev --port 8788",
-		"dev:docs": "typedoc --watch --options",
+		"dev:docs": "typedoc --watch",
 		"build": "vite build && npm run package",
 		"build:docs": "typedoc",
 		"preview": "vite preview",
@@ -24,6 +24,7 @@
 		"prepublishOnly": "npm run package",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
 		"test": "vitest",
 		"coverage": "vitest run --coverage",
 		"prepare": "husky install",
@@ -40,6 +41,9 @@
 		"!dist/**/*.test.*",
 		"!dist/**/*.spec.*"
 	],
+	"dependencies": {
+		"@svelte-dev/session": "^0.1.0"
+	},
 	"peerDependencies": {
 		"@sveltejs/kit": "^1.0.0",
 		"svelte": "^5.0.0||^4.0.0"
@@ -47,7 +51,7 @@
 	"devDependencies": {
 		"@commitlint/cli": "latest",
 		"@commitlint/config-conventional": "latest",
-		"@svelte-dev/auth-sso": "^0.0.4",
+		"@svelte-dev/auth-sso": "^0.0.5",
 		"@sveltejs/adapter-cloudflare": "^2.3.3",
 		"@sveltejs/kit": "^1.27.4",
 		"@sveltejs/package": "^2.2.3",
@@ -68,6 +72,7 @@
 		"svelte-check": "^3.6.0",
 		"tslib": "^2.4.1",
 		"typedoc-plugin-extras": "^3.0.0",
+		"typedoc-plugin-google-ads": "^1.6.0",
 		"typedoc-plugin-keywords": "^1.6.0",
 		"typedocs": "^0.6.7",
 		"typescript": "^5.0.0",

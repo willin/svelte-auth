@@ -1,12 +1,16 @@
 /// <reference lib="dom" />
 /// <reference lib="dom.iterable" />
 
+import type { Auth } from '$lib/auth/auth.ts';
+
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
+			auth: Auth;
+			session: SessionStorage<{ user: any }>;
 			user?:
 				| {
 						invalid?: boolean;

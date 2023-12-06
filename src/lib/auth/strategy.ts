@@ -1,47 +1,7 @@
 import { json, redirect, type RequestEvent } from '@sveltejs/kit';
 import { AuthorizationError } from './error.js';
-
-/**
- * Extra information from the Authenticator to the strategy
- */
-export interface AuthenticateOptions {
-	/**
-	 * The key of the session used to set the user data.
-	 */
-	sessionKey: string;
-	/**
-	 * In what key of the session the errors will be set.
-	 * @default "auth:error"
-	 */
-	sessionErrorKey: string;
-	/**
-	 * The key of the session used to set the strategy used to authenticate the
-	 * user.
-	 */
-	sessionStrategyKey: string;
-	/**
-	 * The name used to register the strategy
-	 */
-	name: string;
-	/**
-	 * To what URL redirect in case of a successful authentication.
-	 * If not defined, it will return the user data.
-	 */
-	successRedirect?: string;
-	/**
-	 * To what URL redirect in case of a failed authentication.
-	 * If not defined, it will return null
-	 */
-	failureRedirect?: string;
-	/**
-	 * Set if the strategy should throw an error instead of a Reponse in case of
-	 * a failed authentication.
-	 * @default true
-	 */
-	throwOnError?: boolean;
-
-	cookieOpts?: import('cookie').CookieSerializeOptions;
-}
+import type { AuthOptions } from './types.js';
+import type { SessionStorage } from '@svelte-dev/session';
 
 /**
  * A function which will be called to find the user using the information the
@@ -87,12 +47,12 @@ export abstract class Strategy<User, VerifyOptions> {
 	 * At the end of the flow, it will return a Response to be used by the
 	 * application.
 	 */
-	public abstract authenticate(event: RequestEvent, options: AuthenticateOptions): Promise<User>;
+	public abstract authenticate(event: RequestEvent, options: AuthOptions): Promise<User>;
 
 	/**
 	 * Throw an AuthorizationError or a redirect to the failureRedirect.
 	 * @param message The error message to set in the session.
-	 * @param event The request event to get the cookie out of.
+	 * @param event The RequestEvent to get the session out of.
 	 * @param options The strategy options.
 	 * @throws {AuthorizationError} If the throwOnError is set to true.
 	 * @throws {Response} If the failureRedirect is set or throwOnError is false.
@@ -101,9 +61,9 @@ export abstract class Strategy<User, VerifyOptions> {
 	protected async failure(
 		message: string,
 		event: RequestEvent,
-		options: AuthenticateOptions,
+		options: AuthOptions,
 		cause?: Error
-	): Promise<never> {
+	): Promise<void> {
 		// if a failureRedirect is not set, we throw a 401 Response or an error
 		if (!options.failureRedirect) {
 			if (options.throwOnError) throw new AuthorizationError(message, cause);
@@ -114,34 +74,25 @@ export abstract class Strategy<User, VerifyOptions> {
 				}
 			);
 		}
-		const { cookies } = event;
-		cookies.set(options.sessionErrorKey, JSON.stringify({ message }), options.cookieOpts);
-
+		const session = (event.locals as any).session as SessionStorage;
+		session.flash(options.sessionErrorKey ?? 'auth:error', { message });
 		throw redirect(307, options.failureRedirect);
 	}
 
 	/**
 	 * Returns the user data or throw a redirect to the successRedirect.
 	 * @param user The user data to set in the session.
-	 * @param event The request event to get the cookie out of.
+	 * @param event The RequestEvent to get the session out of.
 	 * @param options The strategy options.
 	 * @returns {Promise<User>} The user data.
 	 * @throws {Response} If the successRedirect is set, it will redirect to it.
 	 */
-	protected async success(
-		user: User,
-		event: RequestEvent,
-		options: AuthenticateOptions
-	): Promise<User> {
+	protected async success(user: User, event: RequestEvent, options: AuthOptions): Promise<User> {
 		// if a successRedirect is not set, we return the user
 		if (!options.successRedirect) return user;
-
-		const { cookies } = event;
-
-		// if we do have a successRedirect, we redirect to it and set the user
-		// in the session sessionKey
-		cookies.set(options.sessionKey, JSON.stringify(user), options.cookieOpts);
-		cookies.set(options.sessionStrategyKey, options.name ?? this.name, options.cookieOpts);
+		const session = (event.locals as any).session as SessionStorage;
+		await session.set('user', user);
+		await session.set('strategy', this.name);
 		throw redirect(307, options.successRedirect);
 	}
 }

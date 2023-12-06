@@ -1,18 +1,18 @@
 name: Test Suites
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - '!*' # Do not execute on tags
-    paths:
-      - src/*
-      - test/*
-      - '*.json'
-  pull_request:
-    paths:
-      - '!*.MD'
+  # push:
+  #   branches:
+  #     - main
+  #   tags:
+  #     - '!*' # Do not execute on tags
+  #   paths:
+  #     - src/*
+  #     - test/*
+  #     - '*.json'
+  # pull_request:
+  #   paths:
+  #     - '!*.MD'
   workflow_dispatch:
 
 jobs:

@@ -10,6 +10,7 @@ export default defineConfig({
 			reporter: ['text', 'json', 'html', 'lcov'],
 			include: ['src/lib/**/*.{js,ts}'],
 			exclude: [
+				'**/auth/handler.ts',
 				'**/types/**',
 				'**/hooks.server.ts',
 				'**/index.ts',

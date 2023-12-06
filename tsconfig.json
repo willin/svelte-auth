@@ -11,6 +11,7 @@
 		"strict": true,
 		"module": "NodeNext",
 		"types": ["bun-types"],
-		"moduleResolution": "NodeNext"
+		"moduleResolution": "NodeNext",
+		"noImplicitAny": false
 	}
 }

@@ -28,20 +28,102 @@ As with Passport.js, it uses the strategy pattern to support the different authe
 To use it, install it from npm (yarn or bun):
 
 ```bash
-npm install @svelte-dev/auth
+npm install @svelte-dev/auth @svelte-dev/session
 ```
 
 ## Usage
 
+API Specification: [Documentation](https://svelte-auth.js.cool/docs/)
+
+Here's an simple Example:
+
+```ts
+// hooks.server.ts
+import { env } from '$env/dynamic/private';
+import { sequence } from '@sveltejs/kit/hooks';
+import { handleSession } from '@svelte-dev/session';
+import { Auth } from '@svelte-dev/auth';
+import { OAuth2Strategy } from '@svelte-dev/auth-oauth2';
+
+export const handle = sequence(
+	handleSession({
+		adapter: {
+			name: 'cookie',
+			options: {
+				chunk: true
+			}
+		},
+		session: {
+			secrets: ['s3cr3t']
+		},
+		cookie: {
+			secure: !!env.SSO_CALLBACK_URL,
+			sameSite: 'lax',
+			path: '/',
+			httpOnly: !!env.SSO_CALLBACK_URL
+		}
+	}),
+	async function handle({ event, resolve }) {
+		const auth = new Auth(event);
+		const oauthStrategy = new OAuth2Strategy(
+			{
+				clientID: env.SSO_ID,
+				clientSecret: env.SSO_SECRET,
+				callbackURL: env.SSO_CALLBACK_URL || 'http://localhost:8788/auth/sso/callback'
+			},
+			async ({ profile }) => {
+				// Get the user data from your DB or API using the tokens and profile
+				return profile;
+			}
+		);
+		auth.use(oauthStrategy);
+		event.locals.auth = auth;
+		event.locals.user = event.locals.session.get('user');
+		const response = await resolve(event);
+
+		return response;
+	}
+);
+```
+
 ## Advanced Usage
 
-### Custom redirect URL based on the user
+### Typescript
 
-### Changing the session key
+Modify `app.d.ts`, here is an example:
 
-### Reading authentication errors
+```ts
+// See https://kit.svelte.dev/docs/types#app
+// for information about these interfaces
+declare global {
+	namespace App {
+		// interface Error {}
+		interface Locals {
+			auth: Auth;
+			session: SessionStorage<{ user: any }>;
+			user:
+				| {
+						invalid?: boolean;
+						[key: string]: unknown;
+				  }
+				| unknown;
+		}
+		// interface PageData {}
+		interface Platform {
+			env: {
+				SSO_ID: string;
+				SSO_SECRET: string;
+			};
+			context: {
+				waitUntil(promise: Promise<unknown>): void;
+			};
+			caches: CacheStorage & { default: Cache };
+		}
+	}
+}
 
-### Errors Handling
+export {};
+```
 
 ## 赞助 Sponsor
 

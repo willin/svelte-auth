@@ -1,10 +1,9 @@
-import { authenticator } from '../../../../sso.js';
-import type { RequestHandler } from './$types.js';
+import type { RequestEvent } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async (event) => {
+export const GET = async (event: RequestEvent) => {
 	const provider = event.params.provider;
 
-	return await authenticator.authenticate(provider, event, {
+	return await event.locals.auth.authenticate(event, provider as string, {
 		successRedirect: '/demo',
 		failureRedirect: '/'
 	});
