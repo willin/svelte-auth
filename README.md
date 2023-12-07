@@ -89,6 +89,37 @@ export const handle = sequence(
 );
 ```
 
+Then, add a login handler `src/routes/auth/[provider]/+server.ts`:
+
+```ts
+import { redirect, type RequestEvent } from '@sveltejs/kit';
+
+export const GET = async (event: RequestEvent) => {
+  const { request } = event;
+  const provider = event.params.provider ?? 'github';
+  return await event.locals.auth.authenticate(event, provider, {
+    successRedirect: '/dashboard',
+    failureRedirect: '/error'
+  });
+};
+```
+
+Finally, add a callback handler `src/routes/auth/[provider]/callback/+server.ts.ts`:
+
+```ts
+// same as before...
+import type { RequestEvent } from '@sveltejs/kit';
+
+export const GET = async (event: RequestEvent) => {
+  const provider = event.params.provider ?? 'github';
+
+  return await event.locals.auth.authenticate(event, provider, {
+    successRedirect: '/dashboard',
+    failureRedirect: '/error'
+  });
+};
+```
+
 ## Advanced Usage
 
 ### Typescript
