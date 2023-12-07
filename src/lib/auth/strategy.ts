@@ -91,7 +91,7 @@ export abstract class Strategy<User, VerifyOptions> {
 		// if a successRedirect is not set, we return the user
 		if (!options.successRedirect) return user;
 		const session = (event.locals as any).session as SessionStorage;
-		await session.set('user', user);
+		await session.set(options?.sessionKey ?? 'user', user);
 		await session.set('strategy', this.name);
 		throw redirect(307, options.successRedirect);
 	}

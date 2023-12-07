@@ -8,6 +8,11 @@ export interface AuthOptions {
 	 */
 	name?: string;
 	/**
+	 * The key of the session used to set the user data.
+	 * @default "user"
+	 */
+	sessionKey?: string;
+	/**
 	 * In what key of the session the errors will be set.
 	 * @default "auth:error"
 	 */

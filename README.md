@@ -78,7 +78,10 @@ export const handle = sequence(
 		);
 		auth.use(oauthStrategy);
 		event.locals.auth = auth;
-		event.locals.user = event.locals.session.get('user');
+		event.locals.user = event.locals.session.get(
+			// replace your session key, AuthOptions.sessionKey
+			'user'
+		);
 		const response = await resolve(event);
 
 		return response;

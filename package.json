@@ -41,10 +41,9 @@
 		"!dist/**/*.test.*",
 		"!dist/**/*.spec.*"
 	],
-	"dependencies": {
-		"@svelte-dev/session": "^0.1.0"
-	},
+	"dependencies": {},
 	"peerDependencies": {
+		"@svelte-dev/session": "^0.1.0",
 		"@sveltejs/kit": "^1.0.0",
 		"svelte": "^5.0.0||^4.0.0"
 	},
