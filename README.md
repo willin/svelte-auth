@@ -46,46 +46,46 @@ import { Auth } from '@svelte-dev/auth';
 import { OAuth2Strategy } from '@svelte-dev/auth-oauth2';
 
 export const handle = sequence(
-	handleSession({
-		adapter: {
-			name: 'cookie',
-			options: {
-				chunk: true
-			}
-		},
-		session: {
-			secrets: ['s3cr3t']
-		},
-		cookie: {
-			secure: !!env.SSO_CALLBACK_URL,
-			sameSite: 'lax',
-			path: '/',
-			httpOnly: !!env.SSO_CALLBACK_URL
-		}
-	}),
-	async function handle({ event, resolve }) {
-		const auth = new Auth(event);
-		const oauthStrategy = new OAuth2Strategy(
-			{
-				clientID: env.SSO_ID,
-				clientSecret: env.SSO_SECRET,
-				callbackURL: env.SSO_CALLBACK_URL || 'http://localhost:8788/auth/sso/callback'
-			},
-			async ({ profile }) => {
-				// Get the user data from your DB or API using the tokens and profile
-				return profile;
-			}
-		);
-		auth.use(oauthStrategy);
-		event.locals.auth = auth;
-		event.locals.user = event.locals.session.get(
-			// replace your session key, AuthOptions.sessionKey
-			'user'
-		);
-		const response = await resolve(event);
+  handleSession({
+    adapter: {
+      name: 'cookie',
+      options: {
+        chunk: true
+      }
+    },
+    session: {
+      secrets: ['s3cr3t']
+    },
+    cookie: {
+      secure: !!env.SSO_CALLBACK_URL,
+      sameSite: 'lax',
+      path: '/',
+      httpOnly: !!env.SSO_CALLBACK_URL
+    }
+  }),
+  async function handle({ event, resolve }) {
+    const auth = new Auth(event);
+    const oauthStrategy = new OAuth2Strategy(
+      {
+        clientID: env.SSO_ID,
+        clientSecret: env.SSO_SECRET,
+        callbackURL: env.SSO_CALLBACK_URL || 'http://localhost:8788/auth/sso/callback'
+      },
+      async ({ profile }) => {
+        // Get the user data from your DB or API using the tokens and profile
+        return profile;
+      }
+    );
+    auth.use(oauthStrategy);
+    event.locals.auth = auth;
+    event.locals.user = event.locals.session.get(
+      // replace your session key, AuthOptions.sessionKey
+      'user'
+    );
+    const response = await resolve(event);
 
-		return response;
-	}
+    return response;
+  }
 );
 ```
 
@@ -99,30 +99,30 @@ Modify `app.d.ts`, here is an example:
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare global {
-	namespace App {
-		// interface Error {}
-		interface Locals {
-			auth: Auth;
-			session: SessionStorage<{ user: any }>;
-			user:
-				| {
-						invalid?: boolean;
-						[key: string]: unknown;
-				  }
-				| unknown;
-		}
-		// interface PageData {}
-		interface Platform {
-			env: {
-				SSO_ID: string;
-				SSO_SECRET: string;
-			};
-			context: {
-				waitUntil(promise: Promise<unknown>): void;
-			};
-			caches: CacheStorage & { default: Cache };
-		}
-	}
+  namespace App {
+    // interface Error {}
+    interface Locals {
+      auth: Auth;
+      session: SessionStorage<{ user: any }>;
+      user:
+        | {
+            invalid?: boolean;
+            [key: string]: unknown;
+          }
+        | unknown;
+    }
+    // interface PageData {}
+    interface Platform {
+      env: {
+        SSO_ID: string;
+        SSO_SECRET: string;
+      };
+      context: {
+        waitUntil(promise: Promise<unknown>): void;
+      };
+      caches: CacheStorage & { default: Cache };
+    }
+  }
 }
 
 export {};
